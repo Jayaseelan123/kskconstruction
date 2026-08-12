@@ -183,4 +183,41 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Gallery Filtering
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const allGalleryItems = document.querySelectorAll('.gallery-item');
+
+  if (filterBtns.length > 0 && allGalleryItems.length > 0) {
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Remove active styling from all buttons
+        filterBtns.forEach(b => {
+          b.classList.remove('active');
+          b.style.background = 'transparent';
+          b.style.color = '#333';
+          b.style.border = '1px solid #ddd';
+        });
+
+        // Add active styling to clicked button
+        btn.classList.add('active');
+        btn.style.background = 'var(--ksk-green)';
+        btn.style.color = 'white';
+        btn.style.border = 'none';
+
+        const filterValue = btn.getAttribute('data-filter');
+
+        allGalleryItems.forEach(item => {
+          if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+            item.style.display = 'block';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+        
+        // Re-initialize lightbox index matching visible items
+        currentImageIndex = 0;
+      });
+    });
+  }
+
 });
